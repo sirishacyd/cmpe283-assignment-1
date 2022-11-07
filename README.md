@@ -18,7 +18,7 @@
       ```
     - Final cloud shell command with all the vm capabilitis with your ssh keys in metadata.
         ```
-        gcloud compute instances create cmpe283-assignment1 --project=valued-network-366918 --zone=us-central1-a --machine-type=n2-standard-8 --network-interface=network-tier=PREMIUM,subnet=default --metadata=ssh-keys=jayanthvishalreddy:ssh-ed25519\ AAAAC3NzaC1lZDI1NTE5AAAAIHsTFWuRw6DNxrrQgBiIx9TSgrOtdVNEoO1aWPfbHnfs\ jayanthvishalreddy@Jayanths-MacBook-Air-2.local$'\n'siri:ssh-ed25519\ AAAAC3NzaC1lZDI1NTE5AAAAICMdhjaZM4SHxu6BC7LYeX6r6yL48fbF5D\+MFwMU4w5j\ sirishacyd@gmail.com --maintenance-policy=MIGRATE --provisioning-model=STANDARD --service-account=1044074668714-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --create-disk=auto-delete=yes,boot=yes,device-name=cmpe283-assignment1,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20221018,mode=rw,size=200,type=projects/valued-network-366918/zones/us-central1-a/diskTypes/pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any --min-cpu-platform "Intel Cascade Lake" --enable-nested-virtualization
+        gcloud compute instances create cmpe283-assignment1 --project=valued-network-366918 --zone=us-central1-a --machine-type=n2-standard-8 --network-interface=network-tier=PREMIUM,subnet=default --metadata=ssh-keys=jayanthvishalreddy:ssh-ed25519\ AAAAC3NzaC1lZDI1NTE5AAAAIHsTFWuRw6DNxrrQgBiIx9TSgrOtdVNEoO1aWPfbHnfs\ jayanthvishalreddy@Jayanths-MacBook-Air-2.local$'\n'siri:ssh-ed25519\ AAAAC3NzaC1lZDI1NTE5AAAAICMdhjaZM4SHxu6BC7LYeX6r6yL48fbF5D\+MFwMU4w5j\ sirishacyd@gmail.com --maintenance-policy=MIGRATE --provisioning-model=STANDARD --service-account=1044074668714-compute@developer.gserviceaccount.com --scopes=https://www.googleapis.com/auth/devstorage.read_only,https://www.googleapis.com/auth/logging.write,https://www.googleapis.com/auth/monitoring.write,https://www.googleapis.com/auth/servicecontrol,https://www.googleapis.com/auth/service.management.readonly,https://www.googleapis.com/auth/trace.append --create-disk=auto-delete=yes,boot=yes,device-name=cmpe283-assignment1,image=projects/ubuntu-os-cloud/global/images/ubuntu-2204-jammy-v20221018,mode=rw,size=100,type=projects/valued-network-366918/zones/us-central1-a/diskTypes/pd-balanced --no-shielded-secure-boot --shielded-vtpm --shielded-integrity-monitoring --reservation-affinity=any --min-cpu-platform "Intel Cascade Lake" --enable-nested-virtualization
         ```
         ![](screenshots/1.instance_launch.png)
 2. Launched Instance with the SSH Keys Metadata added.
@@ -30,7 +30,6 @@
     - ssh connect to the instance where the private key exist for the public key that has been added for your users.
     ![](screenshots/2.instance_connect_local_siri.png)
     ![](screenshots/2.instance_connect_local_jayanth.jpeg)
-
 4. Installed required dependencies to perform the assignment that loads a new module into kernel.
 ```
 sudo apt-get update
@@ -51,3 +50,33 @@ sudo apt-get install vim gcc make linux-headers-$(uname -r)
    - > scp cmpe283-1.c   siri@34.135.130.126:/home/siri/cmpe283-1
    - scp file [MakeFile](cmpe283-1/Makefile) to the created virtual machine.
    - > scp Makefile   siri@34.135.130.126:/home/siri/cmpe283-1
+7. execute make to generate the required module files.
+```
+siri@cmpe283-assignment1:~/cmpe283-1$ ls
+Makefile  cmpe283-1.c
+siri@cmpe283-assignment1:~/cmpe283-1$ make
+make -C /lib/modules/5.10.0-19-cloud-amd64/build M=/home/siri/cmpe283-1 modules
+make[1]: Entering directory '/usr/src/linux-headers-5.10.0-19-cloud-amd64'
+CC [M]  /home/siri/cmpe283-1/cmpe283-1.o
+MODPOST /home/siri/cmpe283-1/Module.symvers
+CC [M]  /home/siri/cmpe283-1/cmpe283-1.mod.o
+LD [M]  /home/siri/cmpe283-1/cmpe283-1.ko
+make[1]: Leaving directory '/usr/src/linux-headers-5.10.0-19-cloud-amd64'
+```
+8. Check if the files are generated using ls command.
+![](screenshots/6.make_module.png)
+9. Insert the generated module using the following command and check output using dmesg.
+```
+sudo insmod ./cmpe283-1.ko
+sudo dmesg
+```
+![](screenshots/7.dmesg_page1.png)
+![](screenshots/7.dmesg_page2.png)
+10. Remove the generated module using the following command
+```
+sudo rmmod cmpe283-1
+```
+![](screenshots/9.remove_module.png)
+### References
+- [https://cloud.google.com/compute/docs/instances/nested-virtualization/enabling#gcloud](https://cloud.google.com/compute/docs/instances/nested-virtualization/enabling#gcloud)
+- [Intel® 64 and IA-32 Architectures Software Developer Manuals](https://cdrdv2.intel.com/v1/dl/getContent/671200)
