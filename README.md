@@ -9,7 +9,14 @@
   - Defined code to Read MSR to know capabilities for Secondary and Teritary Procbased controls.
   - complied new module using `make` to load new module in to the kernel and inserted module in kernel.
   - updated readme file with instruction to launch VM instance and compiling the new module, committed [dmesg](cmpe283-1/dmesg.out) to git.
+
 - *Jayanth Vishal Reddy Godi (016720080)*
+  - Enabled SSH Authentication on VM launched on google cloud.
+  - Upgraded the ubuntu OS to latest using `apt-get update` and `apt-get upgrade`
+  - Gathered definitions for VMX capabilities for VMENTRY, Primary and Secondary Procbased controls.
+  - Defined code to Read MSR to know capabilities for VMENTRY, VMEXIT and Primary Procbased controls.
+  - updated readme file with instruction to ssh to VM instance, inserting new module and removing new module to kernel.
+  - committed compiled modules to the git to establish evidence of completion of required module.
 
 #### 2. Describe in detail the steps you used to complete the assignment. Consider your reader to be someone  skilled in software development but otherwise unfamiliar with the assignment. Good answers to this  question will be recipes that someone can follow to reproduce your development steps. Note: I may decide to follow these instructions for random assignments, so you should make sure  they are accurate.
 
