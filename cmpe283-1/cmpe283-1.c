@@ -1,5 +1,6 @@
 /*  
  *  cmpe283-1.c - Kernel module for CMPE283 assignment 1
+ *  Submitted By Sirisha Polisetty() & Jayanth Vishal Reddy Godi()
  */
 #include <linux/module.h>	/* Needed by all modules */
 #include <linux/kernel.h>	/* Needed for KERN_INFO */
@@ -9,15 +10,15 @@
 
 /*
  * Model specific registers (MSRs) by the module.
- * See SDM volume 4, section 2.1
+ * See SDM volume 4, section 2.1, Table 2.2
  */
-
 #define IA32_VMX_PINBASED_CTLS	0x481
 #define IA32_VMX_PROCBASED_CTLS 0x482
 #define IA32_VMX_PROCBASED_CTLS2 0x48B
 #define IA32_VMX_EXIT_CTLS 0x483
 #define IA32_VMX_ENTRY_CTLS 0x484
 #define IA32_VMX_PROCBASED_CTLS3 0x492
+
 /*
  * struct caapability_info
  *
@@ -32,7 +33,7 @@ struct capability_info {
 
 /*
  * Pinbased capabilities
- * See SDM volume 3, section 24.6.1
+ * See SDM volume 3, section 24.6.1 Table 24.5 Page 3746
  */
 struct capability_info pinbased[5] =
 {
@@ -72,6 +73,7 @@ struct capability_info procbased_primary[21] =
     {31, "Activate secondary controls" }
 
 };
+
 /*
  * Secondary Processor-based capabilities
  * See SDM volume 3, section 24.6.2 Table 24.7 Page 3748
@@ -106,6 +108,7 @@ struct capability_info procbased_secondary[27] =
     {26, "Enable user wait and pause" },
     {28, "Enable ENCLV exiting" }
 };
+
 
 /*
  * Tertiary Processor-based capabilities
@@ -142,6 +145,8 @@ struct capability_info vm_exit_controls[16] =
     {29, "Load PKRS" },
     {31, "Activate secondary controls" }
 };
+
+
 /*
  *  VM-Entry Controls capabilities
  * See  SDM volume 3, section 24.6.2 Table 24.15 Page 3758
@@ -202,19 +207,20 @@ report_capability(struct capability_info *cap, uint8_t len, uint32_t lo,
 void
 detect_vmx_features(void)
 {
-	uint32_t lo, hi, check_secondary_exists, check_teritary_exists ;
+	uint32_t lo, hi,check_secondary_exists, check_teritary_exists ;
 
 	/* Pinbased controls */
 	rdmsr(IA32_VMX_PINBASED_CTLS, lo, hi);
 	pr_info("Pinbased Controls MSR: 0x%llx\n",
 		(uint64_t)(lo | (uint64_t)hi << 32));
 	report_capability(pinbased, 5, lo, hi);
-	
-	/* Exit controls */
+
+    /* Exit controls */
 	rdmsr(IA32_VMX_EXIT_CTLS, lo, hi);
 	pr_info("Exit Controls MSR: 0x%llx\n",
 		(uint64_t)(lo | (uint64_t)hi << 32));
 	report_capability(vm_exit_controls, 14, lo, hi);
+	
 	
 	/* Entry controls */
 	rdmsr(IA32_VMX_ENTRY_CTLS, lo, hi);
@@ -229,8 +235,9 @@ detect_vmx_features(void)
 	pr_info("Procbased Primary Controls MSR: 0x%llx\n",
 		(uint64_t)(lo | (uint64_t)hi << 32));
 	report_capability(procbased_primary, 21, lo, hi);
-	
-	/* Secondary Procbased controls */
+
+    
+    /* Secondary Procbased controls */
     check_secondary_exists = (hi & (1 << 31)) ? 1 : 0;
 
     if(check_secondary_exists){
@@ -256,7 +263,6 @@ detect_vmx_features(void)
     }
 }
 
-
 /*
  * init_module
  *
@@ -269,9 +275,7 @@ int
 init_module(void)
 {
 	printk(KERN_INFO "CMPE 283 Assignment 1 Module Start\n");
-
 	detect_vmx_features();
-
 	/* 
 	 * A non 0 return means init_module failed; module can't be loaded. 
 	 */
