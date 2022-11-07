@@ -202,18 +202,20 @@ report_capability(struct capability_info *cap, uint8_t len, uint32_t lo,
 void
 detect_vmx_features(void)
 {
-	uint32_t lo, hi;
+	uint32_t lo, hi, check_secondary_exists, check_teritary_exists ;
 
 	/* Pinbased controls */
 	rdmsr(IA32_VMX_PINBASED_CTLS, lo, hi);
 	pr_info("Pinbased Controls MSR: 0x%llx\n",
 		(uint64_t)(lo | (uint64_t)hi << 32));
 	report_capability(pinbased, 5, lo, hi);
+	
 	/* Exit controls */
 	rdmsr(IA32_VMX_EXIT_CTLS, lo, hi);
 	pr_info("Exit Controls MSR: 0x%llx\n",
 		(uint64_t)(lo | (uint64_t)hi << 32));
 	report_capability(vm_exit_controls, 14, lo, hi);
+	
 	/* Entry controls */
 	rdmsr(IA32_VMX_ENTRY_CTLS, lo, hi);
 	pr_info("Entry Controls MSR: 0x%llx\n",
@@ -227,6 +229,31 @@ detect_vmx_features(void)
 	pr_info("Procbased Primary Controls MSR: 0x%llx\n",
 		(uint64_t)(lo | (uint64_t)hi << 32));
 	report_capability(procbased_primary, 21, lo, hi);
+	
+	/* Secondary Procbased controls */
+    check_secondary_exists = (hi & (1 << 31)) ? 1 : 0;
+
+    if(check_secondary_exists){
+        rdmsr( IA32_VMX_PROCBASED_CTLS2, lo, hi);
+        pr_info("Secondary Procbased controls MSR: 0x%llx\n",
+            (uint64_t)(lo | (uint64_t)hi << 32));
+        report_capability(procbased_secondary, 27, lo, hi);
+    }
+    else {
+        pr_info("Secondary Procbased controls do not exist");
+    }
+    
+    /* Tertiary Procbased controls */
+    check_teritary_exists = (hi & (1 << 17)) ? 1 : 0;
+    if(check_teritary_exists){	
+	    rdmsr(IA32_VMX_PROCBASED_CTLS2, lo, hi);
+	    pr_info("Tertiary Procbased Controls MSR: 0x%llx\n",
+		(uint64_t)(lo | (uint64_t)hi << 32));
+	    report_capability(procbased_tertiary, 4, lo, hi);	
+    }
+    else {
+        pr_info("Tertiary Procbased Controls do not exist");
+    }
 }
 
 
