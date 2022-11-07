@@ -44,6 +44,36 @@ struct capability_info pinbased[5] =
 };
 
 /*
+ * Primary Processor-based capabilities
+ * See SDM volume 3, section 24.6.2 Table 24.6 Page 3746,3747
+ */
+struct capability_info procbased_primary[21] =
+{
+    {2, "Interrupt-window exiting" },
+    {3, "Use TSC offsetting" },
+    {7, "HLT exiting" },
+    {9, "INVLPG exiting" },
+    {10, "MWAIT exiting" },
+    {11, "RDPMC exiting" },
+    {12, "RDTSC exiting" },
+    {15, "CR3-load exiting" },
+    {16, "CR3-store exiting" },
+    {17, "Activate tertiary controls" },
+    {19, "CR8-load exiting" },
+    {20, "CR8-store exiting" },
+    {21, "Use TPR shadow" },
+    {22, "NMI-window exiting" },
+    {23, "MOV-DR exiting" },
+    {24, "Unconditional I/O exiting" },
+    {25, "Use I/O bitmaps" },
+    {27, "Monitor trap flag" },
+    {29, "MONITOR exiting" },
+    {30, "PAUSE exiting" },
+    {31, "Activate secondary controls" }
+
+};
+
+/*
  * report_capability
  *
  * Reports capabilities present in 'cap' using the corresponding MSR values
