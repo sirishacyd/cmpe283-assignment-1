@@ -214,7 +214,21 @@ detect_vmx_features(void)
 	pr_info("Exit Controls MSR: 0x%llx\n",
 		(uint64_t)(lo | (uint64_t)hi << 32));
 	report_capability(vm_exit_controls, 14, lo, hi);
+	/* Entry controls */
+	rdmsr(IA32_VMX_ENTRY_CTLS, lo, hi);
+	pr_info("Entry Controls MSR: 0x%llx\n",
+		(uint64_t)(lo | (uint64_t)hi << 32));
+	report_capability(vm_entry_controls, 12, lo, hi);
+
+    /* Processor Based VM Execution Controls */
+    
+    /* Primary Procbased controls */
+	rdmsr(IA32_VMX_PROCBASED_CTLS, lo, hi);
+	pr_info("Procbased Primary Controls MSR: 0x%llx\n",
+		(uint64_t)(lo | (uint64_t)hi << 32));
+	report_capability(procbased_primary, 21, lo, hi);
 }
+
 
 /*
  * init_module
