@@ -253,7 +253,7 @@ detect_vmx_features(void)
     /* Tertiary Procbased controls */
     check_teritary_exists = (hi & (1 << 17)) ? 1 : 0;
     if(check_teritary_exists){	
-	    rdmsr(IA32_VMX_PROCBASED_CTLS2, lo, hi);
+	    rdmsr(IA32_VMX_PROCBASED_CTLS3, lo, hi);
 	    pr_info("Tertiary Procbased Controls MSR: 0x%llx\n",
 		(uint64_t)(lo | (uint64_t)hi << 32));
 	    report_capability(procbased_tertiary, 4, lo, hi);	
