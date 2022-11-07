@@ -142,7 +142,26 @@ struct capability_info vm_exit_controls[16] =
     {29, "Load PKRS" },
     {31, "Activate secondary controls" }
 };
-
+/*
+ *  VM-Entry Controls capabilities
+ * See  SDM volume 3, section 24.6.2 Table 24.15 Page 3758
+ */
+struct capability_info vm_entry_controls[13] =
+{     
+    {2, "Load debug controls" },
+    {9, "IA-32e mode guest" },
+    {10, "Entry to SMM" },
+    {11, "Deactivate dualmonitor treatment" },
+    {13, "Load IA32_PERF_GLOBAL_CTRL" },
+    {14, "Load IA32_PAT" },
+    {15, "Load IA32_EFER" },
+    {16, "Load IA32_BNDCFGS" },
+    {17, "Conceal VMX from PT" },
+    {18, "Load IA32_RTIT_CTL" },
+    {20, "Load CET state" },
+    {21, "Load guest IA32_LBR_CTL" },
+    {22, "Load PKRS" }
+};
 /*
  * report_capability
  *
