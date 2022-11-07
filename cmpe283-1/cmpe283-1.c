@@ -106,6 +106,43 @@ struct capability_info procbased_secondary[27] =
     {26, "Enable user wait and pause" },
     {28, "Enable ENCLV exiting" }
 };
+
+/*
+ * Tertiary Processor-based capabilities
+ * See SDM volume 3, section 24.6.2 Table 24.8 Page 3749
+ */
+struct capability_info procbased_tertiary[4] =
+{     
+    {0, "LOADIWKEY exiting" },
+    {1, "Enable HLAT" },
+    {2, "EPT paging-write control" },
+    {3, "Guest-paging verification" }
+};
+
+/*
+ * VM-Exit Controls capabilities
+ * See SDM volume 3, section 24.6.2 Table 24.13 Page 3756
+ */
+struct capability_info vm_exit_controls[16] =
+{	
+    {2, "Save debug controls" },
+    {9, "Host address-space size" },
+    {12, "Load IA32_PERF_GLOBAL_CTRL" },
+    {15, "Acknowledge interrupt on exit" },
+    {18, "Save IA32_PAT" },
+    {19, "Load IA32_PAT" },
+    {20, "Save IA32_EFER" },
+    {21, "Load IA32_EFER" },
+    {22, "Save VMXpreemption timer value" },
+    {23, "Clear IA32_BNDCFGS" },
+    {24, "Conceal VMX from PT" },
+    {25, "Clear IA32_RTIT_CTL" },
+    {26, "Clear IA32_LBR_CTL" },
+    {28, "Load CET state" },
+    {29, "Load PKRS" },
+    {31, "Activate secondary controls" }
+};
+
 /*
  * report_capability
  *
