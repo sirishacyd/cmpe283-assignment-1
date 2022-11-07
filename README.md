@@ -48,6 +48,6 @@ sudo apt-get install vim gcc make linux-headers-$(uname -r)
 6. Once the Sturct Definition is Done, scp the required code files in to the noed.
    - created a new folder for [cmpe283-1](cmpe283-1) module that gets loaded in to the kernel and scped the files to node.
    - scp file [cmpe283-1.c](cmpe283-1/cmpe283-1.c) to the created virtual machine.
-   - >> scp cmpe283-1.c   siri@34.135.130.126:/home/siri/cmpe283-1
+   - > scp cmpe283-1.c   siri@34.135.130.126:/home/siri/cmpe283-1
    - scp file [MakeFile](cmpe283-1/Makefile) to the created virtual machine.
-   - >> scp Makefile   siri@34.135.130.126:/home/siri/cmpe283-1
+   - > scp Makefile   siri@34.135.130.126:/home/siri/cmpe283-1
