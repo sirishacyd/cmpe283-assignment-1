@@ -1,6 +1,6 @@
 /*  
  *  cmpe283-1.c - Kernel module for CMPE283 assignment 1
- *  Submitted By Sirisha Polisetty() & Jayanth Vishal Reddy Godi()
+ *  Submitted By Sirisha Polisetty(016012477) & Jayanth Vishal Reddy Godi(016720080)
  */
 #include <linux/module.h>	/* Needed by all modules */
 #include <linux/kernel.h>	/* Needed for KERN_INFO */
